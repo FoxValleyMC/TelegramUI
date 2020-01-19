@@ -21,7 +21,7 @@ public class TelegramCommand extends PluginCommand {
         if (sender instanceof Player) {
             switch (args.length) {
                 case 0:
-                    ((Player) sender).showFormWindow(plugin.formWindow, 0);
+                    ((Player) sender).showFormWindow(plugin.formWindowMap.get("toggle_window"), 0);
                     break;
                 case 1:
                     break;

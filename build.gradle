@@ -11,10 +11,15 @@ repositories {
     maven {
         url "http://repo.nukkitx.com/main/"
     }
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
     implementation "cn.nukkit:nukkit:1.0-SNAPSHOT"
+    implementation 'com.github.TimelessMC:NukkitDB:e8b0f9f365e7c0bcef56b5efa1296322ac790abf'
+    implementation "com.github.TimelessMC:AliasPro:07f4a6d72b322e0aa58db2319f237bed1f06139e"
 }
 
 jar {
