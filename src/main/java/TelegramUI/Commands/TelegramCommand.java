@@ -1,9 +1,16 @@
 package TelegramUI.Commands;
 
+import TelegramUI.Handler.DatabaseHandler;
 import TelegramUI.Main;
 import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
+import cn.nukkit.form.element.ElementButton;
+import cn.nukkit.form.window.FormWindowSimple;
+import cn.nukkit.utils.TextFormat;
+
+import java.util.List;
+import java.util.Map;
 
 public class TelegramCommand extends PluginCommand {
 
@@ -24,6 +31,24 @@ public class TelegramCommand extends PluginCommand {
                     ((Player) sender).showFormWindow(plugin.formWindowMap.get("toggle_window"), 0);
                     break;
                 case 1:
+                    switch (args[0]){
+                        case "read":
+                        case "view":
+                            String uuid = ((Player) sender).getUniqueId().toString();
+                            Map<String, Object> objectMap = DatabaseHandler.query(uuid, "uuid");
+                            List<List<Object>> mailData = (List<List<Object>>) objectMap.get("mail");
+                            FormWindowSimple formWindowSimple = new FormWindowSimple("Your inbox...", "");
+                            formWindowSimple.setContent(TextFormat.RED+"Unread Mail..."+ TextFormat.GRAY + " - " +TextFormat.DARK_GREEN+"Saved Mail...");
+                            if (mailData.size() >= 1) {
+                                for (List<Object> telegram : mailData) {
+                                    String format = (Boolean) telegram.get(0) ? TextFormat.RED+"" : TextFormat.DARK_GREEN+"";
+                                    ElementButton button = new ElementButton(format + telegram.get(2).toString());
+                                    formWindowSimple.addButton(button);
+                                }
+                            }
+                            ((Player) sender).showFormWindow(formWindowSimple, 4);
+                            break;
+                    }
                     break;
             }
         } else {
