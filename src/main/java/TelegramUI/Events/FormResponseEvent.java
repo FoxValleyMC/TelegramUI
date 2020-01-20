@@ -54,7 +54,7 @@ public class FormResponseEvent implements Listener {
                                 mailList.set(i, mailData);
                             }
                         }
-                        event.getPlayer().sendMessage(TextFormat.GREEN+"Saved" + TextFormat.WHITE + "1" + TextFormat.GREEN + "message...");
+                        event.getPlayer().sendMessage(TextFormat.GREEN+"Saved" + TextFormat.WHITE + " 1 " + TextFormat.GREEN + "message...");
                         DatabaseHandler.update(event.getPlayer().getUniqueId().toString(), "mail", mailList);
                         break;
                     case 1:
@@ -70,7 +70,7 @@ public class FormResponseEvent implements Listener {
                                 mailList1.remove(i);
                             }
                         }
-                        event.getPlayer().sendMessage(TextFormat.RED+"Discarded" + TextFormat.WHITE + "1" + TextFormat.RED + "message...");
+                        event.getPlayer().sendMessage(TextFormat.RED+"Discarded" + TextFormat.WHITE + " 1 " + TextFormat.RED + "message...");
                         DatabaseHandler.update(event.getPlayer().getUniqueId().toString(), "mail", mailList1);
                         break;
                 }
