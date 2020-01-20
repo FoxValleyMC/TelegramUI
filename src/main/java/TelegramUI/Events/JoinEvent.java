@@ -48,8 +48,22 @@ class DelayedTask extends Task {
     @Override
     public void onRun(int currentTick) {
         Map<String, Object> query = DatabaseHandler.query(player.getUniqueId().toString(), "uuid");
-        List<String> stringList = (List<String>) query.get("mail");
-        int amount = stringList.size();
+        List<List<Object>> mailList = (List<List<Object>>) query.get("mail");
+        int amount;
+
+        if (mailList.size() <= 0) {
+            amount = 0;
+        } else {
+            int i = 0;
+            for (List<Object> mailData : mailList) {
+                if ((boolean) mailData.get(0)) {
+                    i++;
+                }
+            }
+            amount = i;
+        }
+
+
         player.sendMessage("\u2709" + TextFormat.ITALIC + TextFormat.GRAY + " You have " + TextFormat.WHITE + TextFormat.BOLD + amount + TextFormat.RESET + TextFormat.ITALIC + TextFormat.GRAY + " unread telegrams...");
     }
 }
