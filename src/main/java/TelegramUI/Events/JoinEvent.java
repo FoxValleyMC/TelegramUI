@@ -64,6 +64,6 @@ class DelayedTask extends Task {
         }
 
 
-        player.sendMessage("\u2709" + TextFormat.ITALIC + TextFormat.GRAY + " You have " + TextFormat.WHITE + TextFormat.BOLD + amount + TextFormat.RESET + TextFormat.ITALIC + TextFormat.GRAY + " unread telegrams...");
+        player.sendMessage("\u2709" + TextFormat.ITALIC + TextFormat.GRAY + " You have " + TextFormat.WHITE + TextFormat.BOLD + amount + TextFormat.RESET + TextFormat.ITALIC + TextFormat.GRAY + " unread telegrams...\n/telegram view");
     }
 }
