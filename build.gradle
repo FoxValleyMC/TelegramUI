@@ -18,8 +18,9 @@ repositories {
 
 dependencies {
     implementation "cn.nukkit:nukkit:1.0-SNAPSHOT"
-    implementation 'com.github.TimelessMC:NukkitDB:e8b0f9f365e7c0bcef56b5efa1296322ac790abf'
-    implementation "com.github.TimelessMC:AliasPro:07f4a6d72b322e0aa58db2319f237bed1f06139e"
+    implementation 'com.github.FoxValleyMC:NukkitDB:master-SNAPSHOT'
+    implementation "com.github.FoxValleyMC:PlayerAPI:master-SNAPSHOT"
+    implementation "com.github.FoxValleyMC:FormAPI:master-SNAPSHOT"
 }
 
 jar {
