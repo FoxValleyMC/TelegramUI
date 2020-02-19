@@ -54,16 +54,17 @@ public class FormResponseEvent implements Listener {
 
             } else if (event.getFormID() == plugin.formAPI.getId("sendTelegram")) {
 
-
                 String receiverName = response.getInputResponse(0).trim();
                 String subject = response.getInputResponse(1);
                 String message = response.getInputResponse(2);
                 Map<String, Object> offlinePlayer = PlayerAPI.getOfflinePlayer(receiverName);
 
                 String noPLayer = TextFormat.RED+"Player "+TextFormat.GOLD+receiverName+TextFormat.RED+" was not found in our database...";
+                String success = TextFormat.GREEN+"Sent telegram to " + TextFormat.WHITE + receiverName + TextFormat.GREEN + "!";
 
                 if (offlinePlayer != null) {
                     sender.sendTelegram(offlinePlayer, subject, message);
+                    sender.sendMessage(success);
                 } else {
                     sender.sendMessage(noPLayer);
                 }
@@ -80,10 +81,10 @@ public class FormResponseEvent implements Listener {
 
                 switch (button) {
                     case 0:
-                        event.getPlayer().showFormWindow(plugin.formAPI.get("sendMessage"), plugin.formAPI.getId("sendMessage"));
+                        sender.showFormWindow(plugin.formAPI.get("sendMessage"), plugin.formAPI.getId("sendMessage"));
                         break;
                     case 1:
-                        event.getPlayer().showFormWindow(plugin.formAPI.get("sendTelegram"), plugin.formAPI.getId("sendTelegram"));
+                        sender.showFormWindow(plugin.formAPI.get("sendTelegram"), plugin.formAPI.getId("sendTelegram"));
                         break;
                 }
 
