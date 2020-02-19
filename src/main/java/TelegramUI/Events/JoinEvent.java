@@ -57,7 +57,7 @@ class DelayedTask extends Task {
         } else {
             int i = 0;
             for (List<Object> mailData : mailList) {
-                if ((boolean) mailData.get(0)) {
+                if (!(boolean) mailData.get(0)) {
                     i++;
                 }
             }
