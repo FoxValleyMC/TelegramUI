@@ -28,7 +28,7 @@ public class TelegramCommand extends PluginCommand {
         if (sender instanceof Player) {
             switch (args.length) {
                 case 0:
-                    ((Player) sender).showFormWindow(plugin.formWindowMap.get("toggle_window"), 0);
+                    ((Player) sender).showFormWindow(plugin.formAPI.get("toggleMode"), plugin.formAPI.getId("toggleMode"));
                     break;
                 case 1:
                     switch (args[0]){
@@ -41,12 +41,13 @@ public class TelegramCommand extends PluginCommand {
                             formWindowSimple.setContent(TextFormat.RED+"Unread Mail..."+ TextFormat.GRAY + " - " +TextFormat.DARK_GREEN+"Saved Mail...");
                             if (mailData.size() >= 1) {
                                 for (List<Object> telegram : mailData) {
-                                    String format = (Boolean) telegram.get(0) ? TextFormat.RED+"" : TextFormat.DARK_GREEN+"";
+                                    String format = (Boolean) telegram.get(0) ? TextFormat.DARK_GREEN+"" : TextFormat.RED+"";
                                     ElementButton button = new ElementButton(format + telegram.get(2).toString());
                                     formWindowSimple.addButton(button);
                                 }
                             }
-                            ((Player) sender).showFormWindow(formWindowSimple, 4);
+                            plugin.formAPI.add("readMail", formWindowSimple);
+                            ((Player) sender).showFormWindow(plugin.formAPI.get("readMail"), plugin.formAPI.getId("readMail"));
                             break;
                     }
                     break;

@@ -1,5 +1,6 @@
 package TelegramUI;
 
+import FormAPI.api.FormAPI;
 import TelegramUI.Commands.TelegramCommand;
 import TelegramUI.Events.FormResponseEvent;
 import TelegramUI.Events.JoinEvent;
@@ -21,7 +22,7 @@ public class Main extends PluginBase {
     }
 
     private static Main instance;
-    public Map<String, FormWindow> formWindowMap = new HashMap<>();
+    public FormAPI formAPI = new FormAPI();
     public String prefix = "["+TextFormat.BOLD+""+TextFormat.BLUE+"Telegram" + " " + TextFormat.DARK_AQUA+"Menu"+TextFormat.RESET+"]";
 
     @Override
@@ -47,7 +48,7 @@ public class Main extends PluginBase {
         ElementInput elementInput2 = new ElementInput("", "Message...");
         formWindowCustom.addElement(elementInput1);
         formWindowCustom.addElement(elementInput2);
-        formWindowMap.put("message_send", formWindowCustom);
+        formAPI.add("sendMessage", formWindowCustom);
     }
 
     private void registerToggleFormWindow() {
@@ -55,18 +56,18 @@ public class Main extends PluginBase {
         String btn1 = "Send DM";
         String btn2 = "Send telegram";
         FormWindowModal formWindowModal = new FormWindowModal(prefix, content, btn1, btn2);
-        formWindowMap.put("toggle_window", formWindowModal);
+        formAPI.add("toggleMode", formWindowModal);
     }
 
     private void registerTelegramSendFormWindow() {
         FormWindowCustom formWindowCustom = new FormWindowCustom(prefix);
         ElementInput elementInput1 = new ElementInput("Please enter player full xBox gamer tag!", "name");
-        ElementInput elementInput2 = new ElementInput("", "Title");
+        ElementInput elementInput2 = new ElementInput("", "Subject");
         ElementInput elementInput3 = new ElementInput("", "Message");
         formWindowCustom.addElement(elementInput1);
         formWindowCustom.addElement(elementInput2);
         formWindowCustom.addElement(elementInput3);
-        formWindowMap.put("telegram_send", formWindowCustom);
+        formAPI.add("sendTelegram", formWindowCustom);
     }
 
 }
