@@ -1,6 +1,7 @@
 package TelegramUI.Events;
 
 import PlayerAPI.Overrides.PlayerAPI;
+import TelegramUI.API.Telegram;
 import TelegramUI.Handler.DatabaseHandler;
 import TelegramUI.Main;
 import cn.nukkit.Player;
@@ -30,7 +31,7 @@ public class JoinEvent implements Listener {
         if (DatabaseHandler.query(uuid, "uuid") == null) {
             Map<String, Object> objectMap = new HashMap<>();
             objectMap.put("uuid", uuid);
-            objectMap.put("name", player.getName().toLowerCase());
+            //objectMap.put("name", player.getName().toLowerCase());
             objectMap.put("mail", new ArrayList<>());
             DatabaseHandler.createNew(objectMap);
         }
@@ -49,7 +50,7 @@ class DelayedTask extends Task {
     @Override
     public void onRun(int currentTick) {
         Map<String, Object> query = DatabaseHandler.query(player.getUniqueId().toString(), "uuid");
-        List<List<Object>> mailList = (List<List<Object>>) player.getTelegramData().get("mail");
+        List<List<Object>> mailList = (List<List<Object>>) Telegram.getTelegramPlayerData(player.getUuid()).get("mail");
         int amount;
 
         if (mailList.size() <= 0) {
@@ -63,7 +64,6 @@ class DelayedTask extends Task {
             }
             amount = i;
         }
-
 
         player.sendMessage("\u2709" + TextFormat.ITALIC + TextFormat.GRAY + " You have " + TextFormat.WHITE + TextFormat.BOLD + amount + TextFormat.RESET + TextFormat.ITALIC + TextFormat.GRAY + " unread telegrams...\n/telegram view");
     }

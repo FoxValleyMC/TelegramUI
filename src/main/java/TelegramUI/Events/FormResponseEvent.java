@@ -1,9 +1,9 @@
 package TelegramUI.Events;
 
 import PlayerAPI.Overrides.PlayerAPI;
+import TelegramUI.API.Telegram;
 import TelegramUI.Handler.DatabaseHandler;
 import TelegramUI.Main;
-import cn.nukkit.Player;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
@@ -13,7 +13,6 @@ import cn.nukkit.form.response.FormResponseSimple;
 import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.utils.TextFormat;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +62,7 @@ public class FormResponseEvent implements Listener {
                 String success = TextFormat.GREEN+"Sent telegram to " + TextFormat.WHITE + receiverName + TextFormat.GREEN + "!";
 
                 if (offlinePlayer != null) {
-                    sender.sendTelegram(offlinePlayer, subject, message);
+                    Telegram.send(offlinePlayer, sender, subject, message);
                     sender.sendMessage(success);
                 } else {
                     sender.sendMessage(noPLayer);
@@ -90,7 +89,7 @@ public class FormResponseEvent implements Listener {
 
             } else if (event.getFormID() == plugin.formAPI.getId("viewing")) {
 
-                List<Object> mailList = sender.getMail();
+                List<Object> mailList = Telegram.getMail(sender.getUuid());
 
                 switch (button) {
                     case 0:
@@ -117,7 +116,7 @@ public class FormResponseEvent implements Listener {
                                 mailList.remove(i);
                             }
                         }
-                        event.getPlayer().sendMessage(TextFormat.RED+"Discarded" + TextFormat.WHITE + " 1 " + TextFormat.RED + "message...");
+                        sender.sendMessage(TextFormat.RED+"Discarded" + TextFormat.WHITE + " 1 " + TextFormat.RED + "message...");
                         DatabaseHandler.update(event.getPlayer().getUniqueId().toString(), "mail", mailList);
                         break;
                 }
@@ -128,7 +127,7 @@ public class FormResponseEvent implements Listener {
             FormResponseSimple response = (FormResponseSimple) event.getResponse();
 
             if (event.getFormID() == plugin.formAPI.getId("readMail")) {
-                List<List<Object>> mail = (List<List<Object>>) sender.getTelegramData().get("mail");
+                List<List<Object>> mail = (List<List<Object>>) Telegram.getTelegramPlayerData(sender.getUuid()).get("mail");
                 int button = response.getClickedButtonId();
                 String from = mail.get(button).get(1).toString();
                 String subject = "From... "+TextFormat.ITALIC+from;
