@@ -1,6 +1,6 @@
 package TelegramUI.API;
 
-import NukkitDB.NukkitDB;
+import NukkitDB.Provider.MongoDB;
 import PlayerAPI.Overrides.PlayerAPI;
 import TelegramUI.Main;
 import cn.nukkit.Player;
@@ -12,10 +12,9 @@ import java.util.Map;
 public class Telegram {
 
     public static Map<String, Object> getTelegramPlayerData(String uuid) {
-        String database = Main.getInstance().getConfig().getString("database");
         String collection = Main.getInstance().getConfig().getString("collection");
-        return NukkitDB.query(
-                uuid, "uuid", database, collection
+        return MongoDB.getDocument(
+                MongoDB.getCollection(collection), "uuid", uuid
         );
     }
 
@@ -24,7 +23,6 @@ public class Telegram {
     }
 
     public static void send(Map<String, Object> to, PlayerAPI from, String subject, String content) {
-        String database = Main.getInstance().getConfig().getString("database");
         String collection = Main.getInstance().getConfig().getString("collection");
         if (getMail(to.get("uuid").toString()) != null) {
             List<Object> telegram = getMail(to.get("uuid").toString());
@@ -34,8 +32,8 @@ public class Telegram {
             mailData.add(2, subject);
             mailData.add(3, content);
             telegram.add(mailData);
-            NukkitDB.updateDocument(
-                    to.get("uuid").toString(), "uuid", "mail", telegram, database, collection
+            MongoDB.updateOne(
+                    MongoDB.getCollection(collection), "uuid", to.get("uuid").toString(), "mail", telegram
             );
         }
     }

@@ -1,10 +1,9 @@
 package TelegramUI.Events;
 
+import NukkitDB.Provider.MongoDB;
 import PlayerAPI.Overrides.PlayerAPI;
 import TelegramUI.API.Telegram;
-import TelegramUI.Handler.DatabaseHandler;
 import TelegramUI.Main;
-import cn.nukkit.Player;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerJoinEvent;
@@ -26,30 +25,33 @@ public class JoinEvent implements Listener {
 
     @EventHandler()
     public void onJoin(PlayerJoinEvent event) {
+        String collection = plugin.getConfig().getString("collection");
         PlayerAPI player = (PlayerAPI) event.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (DatabaseHandler.query(uuid, "uuid") == null) {
+        if (MongoDB.getDocument(MongoDB.getCollection(collection), "uuid", uuid) == null) {
             Map<String, Object> objectMap = new HashMap<>();
             objectMap.put("uuid", uuid);
-            //objectMap.put("name", player.getName().toLowerCase());
             objectMap.put("mail", new ArrayList<>());
-            DatabaseHandler.createNew(objectMap);
+            MongoDB.insertOne(objectMap, MongoDB.getCollection(collection));
+
         }
-        plugin.getServer().getScheduler().scheduleDelayedTask(new DelayedTask(player), 100, true);
+        plugin.getServer().getScheduler().scheduleDelayedTask(new DelayedTask(player, collection), 100, true);
     }
 }
 
 class DelayedTask extends Task {
 
     PlayerAPI player;
+    String collection;
 
-    DelayedTask(PlayerAPI player) {
+    DelayedTask(PlayerAPI player, String collection) {
         this.player = player;
+        this.collection = collection;
     }
 
     @Override
     public void onRun(int currentTick) {
-        Map<String, Object> query = DatabaseHandler.query(player.getUniqueId().toString(), "uuid");
+        Map<String, Object> query = MongoDB.getDocument(MongoDB.getCollection(collection), "uuid", player.getUuid());
         List<List<Object>> mailList = (List<List<Object>>) Telegram.getTelegramPlayerData(player.getUuid()).get("mail");
         int amount;
 

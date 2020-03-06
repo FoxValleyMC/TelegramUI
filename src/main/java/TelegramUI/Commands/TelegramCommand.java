@@ -1,6 +1,6 @@
 package TelegramUI.Commands;
 
-import TelegramUI.Handler.DatabaseHandler;
+import NukkitDB.Provider.MongoDB;
 import TelegramUI.Main;
 import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
@@ -35,7 +35,8 @@ public class TelegramCommand extends PluginCommand {
                         case "read":
                         case "view":
                             String uuid = ((Player) sender).getUniqueId().toString();
-                            Map<String, Object> objectMap = DatabaseHandler.query(uuid, "uuid");
+                            String collection = plugin.getConfig().getString("collection");
+                            Map<String, Object> objectMap = MongoDB.getDocument(MongoDB.getCollection(collection), "uuid", uuid);
                             List<List<Object>> mailData = (List<List<Object>>) objectMap.get("mail");
                             FormWindowSimple formWindowSimple = new FormWindowSimple("Your inbox...", "");
                             formWindowSimple.setContent(TextFormat.RED+"Unread Mail..."+ TextFormat.GRAY + " - " +TextFormat.DARK_GREEN+"Saved Mail...");

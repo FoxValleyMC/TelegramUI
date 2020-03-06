@@ -37,7 +37,7 @@ public class Main extends PluginBase {
         saveDefaultConfig();
         instance = this;
 
-        if (getConfig().getBoolean("use-MongoDB") || getConfig().getString("collection").isEmpty()){
+        if (!getConfig().getBoolean("use-MongoDB") || getConfig().getString("collection").isEmpty()){
             getLogger().error("Please edit config");
             getServer().getPluginManager().disablePlugin(this);
         }

@@ -1,8 +1,8 @@
 package TelegramUI.Events;
 
+import NukkitDB.Provider.MongoDB;
 import PlayerAPI.Overrides.PlayerAPI;
 import TelegramUI.API.Telegram;
-import TelegramUI.Handler.DatabaseHandler;
 import TelegramUI.Main;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
@@ -90,6 +90,7 @@ public class FormResponseEvent implements Listener {
             } else if (event.getFormID() == plugin.formAPI.getId("viewing")) {
 
                 List<Object> mailList = Telegram.getMail(sender.getUuid());
+                String collection = plugin.getConfig().getString("collection");
 
                 switch (button) {
                     case 0:
@@ -104,7 +105,9 @@ public class FormResponseEvent implements Listener {
                             }
                         }
                         sender.sendMessage(TextFormat.GREEN+"Saved" + TextFormat.WHITE + " 1 " + TextFormat.GREEN + "message...");
-                        DatabaseHandler.update(sender.getUuid(), "mail", mailList);
+                        MongoDB.updateOne(
+                                MongoDB.getCollection(collection), "uuid", sender.getUuid(), "mail", mailList
+                        );
                         break;
                     case 1:
                         for (int i = 0; i < mailList.size(); i++) {
@@ -117,7 +120,9 @@ public class FormResponseEvent implements Listener {
                             }
                         }
                         sender.sendMessage(TextFormat.RED+"Discarded" + TextFormat.WHITE + " 1 " + TextFormat.RED + "message...");
-                        DatabaseHandler.update(event.getPlayer().getUniqueId().toString(), "mail", mailList);
+                        MongoDB.updateOne(
+                                MongoDB.getCollection(collection), "uuid", sender.getUuid(), "mail", mailList
+                        );
                         break;
                 }
             }
