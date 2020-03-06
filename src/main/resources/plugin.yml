@@ -1,6 +1,6 @@
 name: TelegramUI
 author: iAtomPlaza
-api: 1.0.9
+api: 2.0.9
 version: 1.2.0
 main: TelegramUI.Main
 depend:

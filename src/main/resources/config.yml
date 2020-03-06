@@ -1,2 +1,2 @@
-database: networkStorage
+use-MongoDB: false
 collection: TelegramUI

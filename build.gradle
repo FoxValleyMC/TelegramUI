@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'TelegramUI'
-version '1.2.0'
+version '2.2.0'
 
 sourceCompatibility = 1.8
 
@@ -18,8 +18,8 @@ repositories {
 
 dependencies {
     implementation "cn.nukkit:nukkit:1.0-SNAPSHOT"
-    implementation 'com.github.FoxValleyMC:NukkitDB:master-SNAPSHOT'
-    implementation "com.github.FoxValleyMC:PlayerAPI:59907ef2f2"
+    implementation 'com.github.FoxValleyMC:NukkitDB:86616cfab9'
+    implementation "com.github.FoxValleyMC:PlayerAPI:334952f85e"
     implementation "com.github.FoxValleyMC:FormAPI:master-SNAPSHOT"
 }
 

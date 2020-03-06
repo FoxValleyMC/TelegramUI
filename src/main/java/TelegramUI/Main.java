@@ -6,14 +6,10 @@ import TelegramUI.Events.FormResponseEvent;
 import TelegramUI.Events.JoinEvent;
 import cn.nukkit.command.CommandMap;
 import cn.nukkit.form.element.ElementInput;
-import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main extends PluginBase {
 
@@ -40,6 +36,12 @@ public class Main extends PluginBase {
         registerToggleFormWindow();
         saveDefaultConfig();
         instance = this;
+
+        if (getConfig().getBoolean("use-MongoDB") || getConfig().getString("collection").isEmpty()){
+            getLogger().error("Please edit config");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+
     }
 
     private void registerSendMessageFormWindow() {
